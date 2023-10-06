@@ -3,20 +3,20 @@ import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route }
     from 'react-router-dom';
-import About from './pages/home';
-import Blogs from './pages/customers';
-import SignUp from './pages/report';
-import Contact from './pages/movies';
+import Home from './pages/home';
+import Customers from './pages/customers';
+import Report from './pages/report';
+import Movies from './pages/movies';
  
 function App() {
     return (
         <Router>
             <Navbar />
             <Routes>
-                <Route path='/about' element={<About />} />
-                <Route path='/contact' element={<Contact />} />
-                <Route path='/blogs' element={<Blogs />} />
-                <Route path='/sign-up' element={<SignUp />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='/movies' element={<Movies />} />
+                <Route path='/customers' element={<Customers />} />
+                <Route path='/report' element={<Report/>} />
             </Routes>
         </Router>
     );

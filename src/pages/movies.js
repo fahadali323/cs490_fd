@@ -1,11 +1,13 @@
-import React from 'react';
- 
-const Contact = () => {
-    return (
-        <div>
-            <h1>Mail us on feedback@geeksforgeeks.org</h1>
-        </div>
-    );
-};
- 
-export default Contact;
+import React, { useState, useEffect } from 'react';
+// import './App.css'; // Import the CSS file
+import '../styling/home.css';
+
+function Movies() {
+  return (
+    <div>
+      <h2>movies page</h2>
+    </div>
+  );
+}
+
+export default Movies

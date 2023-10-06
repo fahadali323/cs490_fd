@@ -1,9 +1,13 @@
-import React from 'react';
- 
-const Blogs = () => {
-    return (
-        <h1>You can write your blogs!</h1>
-    );
-};
- 
-export default Blogs;
+import React, { useState, useEffect } from 'react';
+// import './App.css'; // Import the CSS file
+import '../styling/home.css';
+
+function Customers() {
+  return (
+    <div>
+      <h2>Customers page</h2>
+    </div>
+  );
+}
+
+export default Customers

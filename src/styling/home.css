@@ -1,0 +1,118 @@
+/* App.css */
+
+/* Reset default margin and padding for the entire page */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+    padding: 20px 20px;
+}
+
+/* Style the navigation menu */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    /* Center navigation items horizontally */
+}
+
+nav ul li a:hover {
+    color: cyan
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+    /* Remove margin from the last item */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+/* Style the header */
+h2 {
+    font-size: 24px;
+    margin-top: 100px;
+    /* Add margin to account for the fixed navigation bar */
+    text-align: center;
+}
+
+/* Style the movie list */
+
+ol {
+    list-style: decimal;
+    padding-left: 10px;
+    /* Reduced left padding */
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Style list items */
+ol li {
+    margin-bottom: 5px;
+    /* Adjust margin between list items */
+}
+
+/* Style the movie details form */
+form .movies-details {
+    margin-top: 20px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style the actors list form */
+form .actors-list {
+    margin-top: 20px;
+    text-align: center;
+}
+
+form .submission {
+    text-align: center;
+    margin-top: 10px;
+}
+
+form input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style the actor details form */
+form .actor-details {
+    margin-top: 20px;
+    text-align: center;
+}
