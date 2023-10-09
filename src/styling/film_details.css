@@ -1,0 +1,40 @@
+/* film-details.css */
+
+/* Style for the Film Details container */
+.film-details-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Style for the Return link */
+  .return-link {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .return-link:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style for the Film Information */
+  .film-info {
+    margin-top: 20px;
+  }
+  
+  .film-info h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .film-info p {
+    margin: 5px 0;
+  }
+  

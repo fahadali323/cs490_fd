@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styling/moviessearch.css';
-
+import { Link } from 'react-router-dom';
 
 function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,7 +75,9 @@ function MovieSearch() {
           <tbody>
             {results.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage).map((result) => (
               <tr key={result.film_id}>
-                <td>{result.title}</td>
+                <td>
+                <Link to={`/movies/${result.film_id}`}>{result.title}</Link>
+                </td>
                 <td>{result.description}</td>
                 <td>{result.genres}</td>
                 <td>{result.actors}</td>
