@@ -86,36 +86,49 @@ function MovieSearch() {
           </tbody>
         </table>
         {results.length > resultsPerPage && (
-          <div className="pagination">
-            <button
-              onClick={() => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-            <label>
-              Results per Page:
-              <select
-                value={resultsPerPage}
-                onChange={(e) => setResultsPerPage(parseInt(e.target.value, 10))}
-              >
-                {availableResultsPerPage.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+  <div className="pagination">
+    <button
+      onClick={() => setCurrentPage(1)} // Go to the first page
+      disabled={currentPage === 1}
+    >
+      First
+    </button>
+    <button
+      onClick={() => setCurrentPage(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      Previous
+    </button>
+    <span>Page {currentPage} of {totalPages}</span>
+    <button
+      onClick={() => setCurrentPage(currentPage + 1)}
+      disabled={currentPage === totalPages}
+    >
+      Next
+    </button>
+    <button
+      onClick={() => setCurrentPage(totalPages)} // Go to the last page
+      disabled={currentPage === totalPages}
+    >
+      Last
+    </button>
+    <label>
+      Results per Page:
+      <select
+        value={resultsPerPage}
+        onChange={(e) => setResultsPerPage(parseInt(e.target.value, 10))}
+      >
+        {availableResultsPerPage.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+)}
 
-        )}
+    
       </div>
     </div>
   );

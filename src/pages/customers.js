@@ -13,32 +13,42 @@ function Customers() {
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchCustomers = async () => {
-  try {
-    // Remove the query parameters from the URL to retrieve all customers
-    const response = await fetch('http://localhost:5001/customers/search');
-    if (response.ok) {
-      const data = await response.json();
-      setCustomers(data);
-      setError('');
-      setTotalPages(Math.ceil(data.length / resultsPerPage));
-    } else {
+    try {
+      // Remove the query parameters from the URL to retrieve all customers
+      const response = await fetch('http://localhost:5001/customers/search');
+      if (response.ok) {
+        const data = await response.json();
+        setCustomers(data);
+        setError('');
+        setTotalPages(Math.ceil(data.length / resultsPerPage));
+      } else {
+        setError('An error occurred while fetching data');
+        setCustomers([]);
+        setTotalPages(1);
+      }
+    } catch (error) {
+      console.error(error);
       setError('An error occurred while fetching data');
       setCustomers([]);
       setTotalPages(1);
     }
-  } catch (error) {
-    console.error(error);
-    setError('An error occurred while fetching data');
-    setCustomers([]);
-    setTotalPages(1);
-  }
-};
+  };
 
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const parseCreateDate = (createDate) => {
+    const date = new Date(createDate);
+    const datePart = date.toLocaleDateString();
+    const timePart = date.toLocaleTimeString();
+    return { datePart, timePart };
+  };
 
   const handleSearch = async () => {
     try {
       let url = '/customers/search?';
-  
+
       // Construct the URL with the correct query parameters based on searchType
       if (searchType === 'customer_id') {
         url += `customerId=${searchTerm}`;
@@ -47,9 +57,9 @@ function Customers() {
       } else if (searchType === 'last_name') {
         url += `lastName=${searchTerm}`;
       }
-  
+
       const response = await fetch(url);
-  
+
       if (response.ok) {
         const data = await response.json();
         setCustomers(data);
@@ -70,7 +80,7 @@ function Customers() {
       setTotalPages(1);
     }
   };
-  
+
   const clearResults = () => {
     setCustomers([]);
     setTotalPages(1);
@@ -114,49 +124,69 @@ function Customers() {
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
+              <th>Create Date</th>
+              <th>Time</th>
             </tr>
           </thead>
           <tbody>
-            {currentCustomers.map((customer) => (
-              <tr key={customer.customer_id}>
-                <td>{customer.customer_id}</td>
-                <td>{customer.first_name}</td>
-                <td>{customer.last_name}</td>
-                <td>{customer.email}</td>
-              </tr>
-            ))}
+            {currentCustomers.map((customer) => {
+              const { datePart, timePart } = parseCreateDate(customer.create_date);
+              return (
+                <tr key={customer.customer_id}>
+                  <td>{customer.customer_id}</td>
+                  <td>{customer.first_name}</td>
+                  <td>{customer.last_name}</td>
+                  <td>{customer.email}</td>
+                  <td>{datePart}</td> {/* Display the date part */}
+                  <td>{timePart}</td> {/* Display the time part */}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {customers.length > resultsPerPage && (
-          <div className="pagination">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-            <label>
-              Results per Page:
-              <select
-                value={resultsPerPage}
-                onChange={(e) => setResultsPerPage(parseInt(e.target.value, 10))}
-              >
-                {availableResultsPerPage.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-        )}
+  <div className="pagination">
+    <button
+      onClick={() => handlePageChange(1)} // Go to the first page
+      disabled={currentPage === 1}
+    >
+      First
+    </button>
+    <button
+      onClick={() => handlePageChange(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      Previous
+    </button>
+    <span>Page {currentPage} of {totalPages}</span>
+    <button
+      onClick={() => handlePageChange(currentPage + 1)}
+      disabled={currentPage === totalPages}
+    >
+      Next
+    </button>
+    <button
+      onClick={() => handlePageChange(totalPages)} // Go to the last page
+      disabled={currentPage === totalPages}
+    >
+      Last
+    </button>
+    <label>
+      Results per Page:
+      <select
+        value={resultsPerPage}
+        onChange={(e) => setResultsPerPage(parseInt(e.target.value, 10))}
+      >
+        {availableResultsPerPage.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+)}
+
       </div>
     </div>
   );
