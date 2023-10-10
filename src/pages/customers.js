@@ -13,29 +13,27 @@ function Customers() {
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchCustomers = async () => {
-    try {
-      const response = await fetch('http://localhost:5001/customers');
-      if (response.ok) {
-        const data = await response.json();
-        setCustomers(data);
-        setError('');
-        setTotalPages(Math.ceil(data.length / resultsPerPage));
-      } else {
-        setError('An error occurred while fetching data');
-        setCustomers([]);
-        setTotalPages(1);
-      }
-    } catch (error) {
-      console.error(error);
+  try {
+    // Remove the query parameters from the URL to retrieve all customers
+    const response = await fetch('http://localhost:5001/customers/search');
+    if (response.ok) {
+      const data = await response.json();
+      setCustomers(data);
+      setError('');
+      setTotalPages(Math.ceil(data.length / resultsPerPage));
+    } else {
       setError('An error occurred while fetching data');
       setCustomers([]);
       setTotalPages(1);
     }
-  };
+  } catch (error) {
+    console.error(error);
+    setError('An error occurred while fetching data');
+    setCustomers([]);
+    setTotalPages(1);
+  }
+};
 
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
 
   const handleSearch = async () => {
     try {
