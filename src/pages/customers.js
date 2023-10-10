@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Customers() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('customer');
+  const [searchType, setSearchType] = useState('customer_id'); // Default search type is customer_id
   const [customers, setCustomers] = useState([]);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +39,19 @@ function Customers() {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/customers/search?type=${searchType}&search=${searchTerm}`);
+      let url = '/customers/search?';
+  
+      // Construct the URL with the correct query parameters based on searchType
+      if (searchType === 'customer_id') {
+        url += `customerId=${searchTerm}`;
+      } else if (searchType === 'first_name') {
+        url += `firstName=${searchTerm}`;
+      } else if (searchType === 'last_name') {
+        url += `lastName=${searchTerm}`;
+      }
+  
+      const response = await fetch(url);
+  
       if (response.ok) {
         const data = await response.json();
         setCustomers(data);
@@ -60,12 +72,12 @@ function Customers() {
       setTotalPages(1);
     }
   };
-
+  
   const clearResults = () => {
     setCustomers([]);
     setTotalPages(1);
-    setSearchTerm(''); // Optionally, you can also reset the search term here
-    setSearchType('customer'); // Optionally, you can also reset the search type here
+    setSearchTerm('');
+    setSearchType('customer_id'); // Reset the search type to customer_id
   };
 
   const indexOfLastCustomer = currentPage * resultsPerPage;
@@ -86,9 +98,10 @@ function Customers() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select onChange={(e) => setSearchType(e.target.value)}>
-          <option value="customer">Customer Name</option>
-          <option value="email">Email</option>
+        <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+          <option value="customer_id">Customer ID</option>
+          <option value="first_name">First Name</option>
+          <option value="last_name">Last Name</option>
         </select>
         <button onClick={handleSearch}>Search</button>
         <button onClick={clearResults}>Clear</button>
