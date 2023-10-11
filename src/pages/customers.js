@@ -81,13 +81,34 @@ function Customers() {
       console.error(error);
     }
   };
+  const deleteCustomer = async (customerId) => {
+    try {
+      const response = await fetch(`http://localhost:5001/customers/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ customer_id: customerId }),
+      });
+  
+      if (response.ok) {
+        // Customer deleted successfully, refresh the customer list
+        toast.success('Customer deleted successfully');
+        fetchCustomers(); // Refresh the customer list
+      } else {
+        // Handle error here
+        console.error('Error deleting customer');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
 
 
   const handleSearch = async () => {
     try {
       let url = '/customers/search?';
-
       // Construct the URL with the correct query parameters based on searchType
       if (searchType === 'customer_id') {
         url += `customerId=${searchTerm}`;
@@ -184,7 +205,7 @@ function Customers() {
                   <td>
                     {/* //<button onClick={() => viewCustomerDetails(customer.customer_id)}>View</button> */}
                     <button onClick={() => editCustomerDetails(customer.customer_id)}>Edit</button>
-                    {/* <button onClick={() => deleteCustomer(customer.customer_id)}>Delete</button> */}
+                    <button onClick={() => deleteCustomer(customer.customer_id)}>Delete</button>
                   </td>
                 </tr>
               );
