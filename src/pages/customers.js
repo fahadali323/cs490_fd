@@ -12,6 +12,7 @@ function Customers() {
   const [availableResultsPerPage] = useState([10, 20, 30]); // Available options for results per page
   const [totalPages, setTotalPages] = useState(1);
 
+  // eslint-disable-next-line 
   const fetchCustomers = async () => {
     try {
       // Remove the query parameters from the URL to retrieve all customers
@@ -57,7 +58,7 @@ function Customers() {
       } else if (searchType === 'last_name') {
         url += `lastName=${searchTerm}`;
       }
-
+      // eslint-disable-next-line
       const response = await fetch(url);
 
       if (response.ok) {
@@ -117,6 +118,7 @@ function Customers() {
       <div>
         {error && <p>{error}</p>}
         <h2>Search Results</h2>
+        <Link to="/add-customer">Add Customer</Link>
         <table>
           <thead>
             <tr>

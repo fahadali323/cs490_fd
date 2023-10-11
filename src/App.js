@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -9,6 +7,7 @@ import Customers from './pages/customers';
 import Report from './pages/report';
 import Movies from './pages/movies';
 import FilmDetails from './pages/filmdetails'; 
+import AddCustomer from './pages/addcustomers';
 
 function App() {
   return (
@@ -19,6 +18,7 @@ function App() {
         <Route path='/movies' element={<Movies />} />
         <Route path="/movies/:film_id" element={<FilmDetails />} />
         <Route path='/customers' element={<Customers />} />
+        <Route path="/add-customer" element={< AddCustomer />} />
         <Route path='/report' element={<Report />} />
       </Routes>
     </Router>
