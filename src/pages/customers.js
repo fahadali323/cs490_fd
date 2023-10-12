@@ -15,6 +15,8 @@ function Customers() {
   const [totalPages, setTotalPages] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [showMovies, setShowMovies] = useState(null);
 
 
   // eslint-disable-next-line 
@@ -58,6 +60,14 @@ function Customers() {
     setIsEditing(true);
     setEditingCustomer(customerToEdit);
   };
+  const viewCustomerDetails = (customerId) => {
+    // Find the customer to edit based on the customerId
+    const customerToEdit = customers.find((customer) => customer.customer_id === customerId);
+
+    setIsEditing(true);
+    setEditingCustomer(customerToEdit);
+  };
+
   const handleEditCustomer = async () => {
     try {
       const response = await fetch('http://localhost:5001/customers/update', {
@@ -81,6 +91,7 @@ function Customers() {
       console.error(error);
     }
   };
+
   const deleteCustomer = async (customerId) => {
     try {
       const response = await fetch(`http://localhost:5001/customers/delete`, {
@@ -90,7 +101,7 @@ function Customers() {
         },
         body: JSON.stringify({ customer_id: customerId }),
       });
-  
+
       if (response.ok) {
         // Customer deleted successfully, refresh the customer list
         toast.success('Customer deleted successfully');
@@ -103,7 +114,26 @@ function Customers() {
       console.error(error);
     }
   };
-  
+
+  const fetchRentedMovies = async (customerId) => {
+    try {
+      // Fetch rented movies for the specified customer ID
+      const rentedMovies = await fetch(`/customers/${customerId}`);
+      if (!rentedMovies.ok) {
+        throw new Error('Failed to fetch rented movies');
+      }
+      const rentedMoviesData = await rentedMovies.json();
+      setMovies(rentedMoviesData);
+      setShowMovies(true);
+    } catch (error) {
+      console.error(error);
+      // Handle the error here, e.g., set an error message or log it
+    }
+  };
+  const clearRentedMovies = () => {
+    setMovies([]);
+    setShowMovies(false);
+  };
 
 
   const handleSearch = async () => {
@@ -117,7 +147,6 @@ function Customers() {
       } else if (searchType === 'last_name') {
         url += `lastName=${searchTerm}`;
       }
-      // eslint-disable-next-line
       const response = await fetch(url);
 
       if (response.ok) {
@@ -203,7 +232,7 @@ function Customers() {
                   <td>{datePart}</td> {/* Display the date part */}
                   <td>{timePart}</td> {/* Display the time part */}
                   <td>
-                    {/* //<button onClick={() => viewCustomerDetails(customer.customer_id)}>View</button> */}
+                    <button onClick={() => fetchRentedMovies(customer.customer_id)}>View</button>
                     <button onClick={() => editCustomerDetails(customer.customer_id)}>Edit</button>
                     <button onClick={() => deleteCustomer(customer.customer_id)}>Delete</button>
                   </td>
@@ -304,6 +333,35 @@ function Customers() {
           </form>
         </div>
       )}
+
+{showMovies && (
+  <div>
+    <h2>Rented Movies</h2>
+    <p>
+      <strong>Customer Name:</strong> {movies[0].first_name} {movies[0].last_name}
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Movie Title</th>
+          <th>Rental Date</th>
+          <th>Return Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {movies.map((movie, index) => (
+          <tr key={index}>
+            <td>{movie.movie_title}</td>
+            <td>{new Date(movie.rental_date).toLocaleString()}</td>
+            <td>{new Date(movie.return_date).toLocaleString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <button onClick={clearRentedMovies}>Clear Rented Movies</button>
+  </div>
+)}
+
 
 
     </div>
