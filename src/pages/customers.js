@@ -60,13 +60,7 @@ function Customers() {
     setIsEditing(true);
     setEditingCustomer(customerToEdit);
   };
-  const viewCustomerDetails = (customerId) => {
-    // Find the customer to edit based on the customerId
-    const customerToEdit = customers.find((customer) => customer.customer_id === customerId);
 
-    setIsEditing(true);
-    setEditingCustomer(customerToEdit);
-  };
 
   const handleEditCustomer = async () => {
     try {
