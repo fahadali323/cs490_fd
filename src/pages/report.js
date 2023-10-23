@@ -46,7 +46,6 @@ function Report() {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
         setData(data); // update the state with the fetched data
       } catch (error) {
